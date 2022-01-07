@@ -1,20 +1,22 @@
 const { ApolloServer } = require("apollo-server");
+const mongoose = require("mongoose");
 
-const db = require("./config/connection");
+const { MONGODB } = require("./config/connection");
+
 const PORT = process.env.PORT || 3002;
 const { typeDefs, resolvers } = require("./schemas");
 
-const startServer = async () => {
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-  db.once("open", () => {
-    server.listen({ port: PORT }).then((res) => {
-      console.log(`server running @ ${res.url}`);
-    });
+mongoose
+  .connect(MONGODB, { useNewUrlParser: true })
+    .then(() => {
+      console.log("MongoDb connected")
+    return server.listen({ port: PORT });
+  })
+  .then((res) => {
+    console.log(`server running @ ${res.url}`);
   });
-};
-
-startServer();
