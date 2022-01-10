@@ -1,26 +1,30 @@
 const { User, Post } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
-const { validateRegisterInput , validateLoginInput } = require("../utils/validate");
+const { AuthenticationError, UserInputError } = require("apollo-server");
+const {
+  validateRegisterInput,
+  validateLoginInput,
+} = require("../utils/validate");
+const checkAuth = require("../utils/check-auth")
 
 const { secret } = require("../config/connection");
 
-function gToken (user) {
+function gToken(user) {
   return jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-        },
-        secret,
-        { expiresIn: "1h" }
-      );
+    {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    },
+    secret,
+    { expiresIn: "1h" }
+  );
 }
 
 const resolvers = {
   Query: {
-    async getPost() {
+    async getPosts() {
       try {
         const post = await Post.find();
         return post;
@@ -28,14 +32,25 @@ const resolvers = {
         throw new Error(err);
       }
     },
+    async getPost(parents, { postId }) {
+      try {
+        const post = await Post.findById(postId);
+        if (post) {
+            return post
+        } else {
+          throw new Error("post not found")
+          }
+      } catch (err) {
+        throw new Error(err)
+      }
+    }
   },
   Mutation: {
     async login(parents, { username, password }) {
-      const { valid, errors } = validateLoginInput(username, password)
+      const { valid, errors } = validateLoginInput(username, password);
       if (!valid) {
-        
       }
-      const user = await User.findOne({ username })
+      const user = await User.findOne({ username });
       if (!user) {
         errors.general = "User doesnt exit";
         throw new UserInputError("Errors", { errors });
@@ -45,13 +60,13 @@ const resolvers = {
         errors.general = "wrong password";
         throw new UserInputError("wrong password", { errors });
       }
-      const token = gToken(user)
-      
-       return {
-         ...user._doc,
-         id: user._id,
-         token,
-       };
+      const token = gToken(user);
+
+      return {
+        ...user._doc,
+        id: user._id,
+        token,
+      };
     },
     async register(
       parents,
@@ -96,6 +111,22 @@ const resolvers = {
         token,
       };
     },
-  },
+    async createPost(_, { body }, context) {
+      const user = checkAuth(context);
+      if (body.trim() === "") {
+        throw new Error("Post body must not be empty");
+      }
+
+      const newPost = new Post({
+        body,
+        user: user.id,
+        username: user.username,
+        createdAt: new Date().toISOString()
+      });
+
+      const post = await newPost.save();
+      return post;
+    },
+  }
 };
 module.exports = resolvers;
