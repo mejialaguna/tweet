@@ -8,18 +8,20 @@ const typeDefs = gql`
     createdAt: String!
     comments: [Comment]!
     likes: [Like]!
+    likesCount: Int!
+    commentCount: Int!
   }
 
-  type Comment{
+  type Comment {
     id: ID!
     username: String!
-    body:String!
+    body: String!
     createdAt: String!
   }
 
   type Like {
     id: ID!
-    username:String!
+    username: String!
     createdAt: String!
   }
 
@@ -47,9 +49,13 @@ const typeDefs = gql`
     login(username: String!, password: String!): User!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
-    createComment(postId: String! , body:String!): Post!
-    deleteComment(postId: ID! ,  commentId: ID!):  Post!
+    createComment(postId: String!, body: String!): Post!
+    deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
+  }
+  
+  type Subscription {
+    newPost: Post!
   }
 `;
 

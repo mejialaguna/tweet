@@ -125,6 +125,11 @@ const resolvers = {
       });
 
       const post = await newPost.save();
+
+      context.pubsub.publish("NEW_POST", {
+        newPost: post,
+      });
+
       return post;
     },
     async deletePost(_, { postId }, context) {
@@ -135,14 +140,14 @@ const resolvers = {
           await post.delete();
           return "post deleted successfully";
         } else {
-          throw new AuthenticationError("action not allowe");
+          throw new AuthenticationError("action not allowed");
         }
       } catch (err) {
         throw new Error(err);
       }
     },
     async createComment(_, { postId, body }, context) {
-      const {username} = checkAuth(context); // destructure user cuz we only need the username same in line 158
+      const { username } = checkAuth(context); // destructure user cuz we only need the username same in line 158
       if (body.trim() === "") {
         throw new UserInputError("Empty Comment", {
           errors: {
@@ -159,10 +164,52 @@ const resolvers = {
           createdAt: new Date().toISOString(),
         });
         await post.save();
-        return post
+        return post;
       } else {
-        throw new UserInputError("post not found")
+        throw new UserInputError("post not found");
       }
+    },
+    async deleteComment(_, { postId, commentId }, context) {
+      const { username } = checkAuth(context);
+      const post = await Post.findById(postId);
+      if (post) {
+        const comment = post.comments.findIndex((c) => c.id === commentId);
+        if (post.comments[comment].username === username) {
+          post.comments.splice(comment, 1); // splice the whole coment and nothing to return after the splice..
+          await post.save();
+          return post;
+        } else {
+          throw new AuthenticationError("Action not allowed");
+        }
+      } else {
+        throw new UserInputError("post not found");
+      }
+    },
+    async likePost(parents, { postId }, context) {
+      const { username } = checkAuth(context);
+      const post = await Post.findById(postId);
+      if (post) {
+        if (post.likes.find((like) => like.username === username)) {
+          post.likes = post.likes.filter((like) => like.username != username);
+        } else {
+          post.likes.push({
+            username,
+            createdAt: new Date().toISOString(),
+          });
+        }
+
+        await post.save();
+        return post;
+      } else {
+        throw new UserInputError("post not found");
+      }
+    },
+  },
+  Subscription: {
+    newPost: {
+      subscribe: (parents, args, { pubSub }) => {
+        pubSub.asyncIterator("NEW_POST");
+      },
     },
   },
 };
