@@ -1,20 +1,20 @@
 import React from "react";
 import App from "./App";
-import apolloClient, { ApolloClient } from "apollo-client";
-import { InMemoryCache, inMemoryCache } from "apollo-cache-inmemory"
+import ApolloClient  from "apollo-client";
+import { InMemoryCache  } from "apollo-cache-inmemory"
 import { createHttpLink } from "apollo-link-http";
-import { apolloProvider } from "@apollo/react-hooks"
+import { ApolloProvider } from "@apollo/react-hooks"
 
 const httpLink = createHttpLink({
     uri: "http://localhost:3002"
 })
 const client = new ApolloClient({
     link: httpLink,
-    cache: InMemoryCache()
+    cache: new InMemoryCache()
 })
  
 export default (
-    <apolloProvider client={client}>
+    <ApolloProvider client={client}>
         <App />
-    </apolloProvider>
+    </ApolloProvider>
 )
