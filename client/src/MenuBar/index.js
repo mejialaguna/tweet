@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function MenuBar() {
     const pathname = window.location.pathname
-    console.log(pathname)
     const path = pathname === "/" ? "home" : pathname.slice(1);
     console.log(path)
 
