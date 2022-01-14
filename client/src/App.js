@@ -5,16 +5,18 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import MenuBar from "./MenuBar"
+import { Container } from "semantic-ui-react";
 
 
 function App() {
   return (
-    
-    <Router>  
-      <MenuBar />
-      <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="register" component={Register} />
+    <Router>
+      <Container textAlign="justified">
+        <MenuBar />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+      </Container>
     </Router>
   );
 }
