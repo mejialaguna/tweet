@@ -14,7 +14,7 @@ function App() {
       <Container textAlign="justified">
         <MenuBar />
         <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
+        {/* <Route exact path="/login" component={Login} /> */}
         {/* <Route exact path="/register" component={Register} /> */}
       </Container>
     </Router>

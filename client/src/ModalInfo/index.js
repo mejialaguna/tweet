@@ -1,29 +1,30 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "semantic-ui-react";
+import Login from "../Login";
+import Register from "../Register";
 
+function ModalInfo({ path }) {
+  const [open, setOpen] = useState(false);
 
-function ModalInfo({ modalOpen,  name }) {
-  const [open, setOpen] = useState(modalOpen);
+  console.log(path + "------------------");
   console.log(open);
   return (
     <Modal
+      size="small"
       centered={false}
       open={open}
-      // onClose={() => setOpen(false)}
+      onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      trigger={<Button>{name}</Button>}
+      trigger={<Button style={{ background: "white" }}>Login</Button>}
     >
-      <Modal.Header>Thank you!</Modal.Header>
       <Modal.Content>
-        <Modal.Description>
-          Your subscription has been confirmed
-        </Modal.Description>
+        {path === "login" ? <Login /> : path === "register" ? <Register />: null}
       </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={() => setOpen(false)}>OK</Button>
-      </Modal.Actions>
+      {/* <Modal.Actions>
+        <Button onClick={() => setOpen(false)}>exit</Button>
+      </Modal.Actions> */}
     </Modal>
   );
 }
 
-export default ModalInfo
+export default ModalInfo;

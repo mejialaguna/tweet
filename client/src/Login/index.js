@@ -46,7 +46,7 @@ const theme = createTheme();
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "90vh" }}>
         <CssBaseline />
         <Grid
           item
