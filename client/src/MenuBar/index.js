@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import ModalInfo from "../ModalInfo";
+import Register from "../Register";
 
 function MenuBar() {
-    const pathname = window.location.pathname
-    const path = pathname === "/" ? "home" : pathname.slice(1);
-    console.log(path)
+  const pathname = window.location.pathname;
+  const path = pathname === "/" ? "home" : pathname.slice(1);
+  console.log(path);
+
+  const [open, setOpen] = useState(false);
 
   const [activeItem, setActiveItem] = useState(path);
 
@@ -13,6 +17,9 @@ function MenuBar() {
     setActiveItem(name);
   };
 
+  const activeModal = () => {
+    setOpen(true);
+  };
   return (
     <Menu pointing secondary color="blue" size="massive">
       <Menu.Item
@@ -31,12 +38,16 @@ function MenuBar() {
           to="login"
         />
       </Menu.Menu>
-      <Menu.Item
+      {/* <Menu.Item
         name="register"
         active={activeItem === "register"}
-        onClick={handleItemClick}
+        onClick={(handleItemClick, activeModal)}
         as={Link}
         to="/register"
+      /> */}
+      <ModalInfo
+        modalOpen={open}
+        name = {"register"}
       />
       {/* <Menu.Item
         name="logout"
