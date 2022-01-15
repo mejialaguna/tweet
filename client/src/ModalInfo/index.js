@@ -3,7 +3,7 @@ import { Button, Modal } from "semantic-ui-react";
 import Login from "../Login";
 import Register from "../Register";
 
-function ModalInfo({ path }) {
+function ModalInfo({ path , name }) {
   const [open, setOpen] = useState(false);
 
   console.log(path + "------------------");
@@ -15,7 +15,7 @@ function ModalInfo({ path }) {
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      trigger={<Button style={{ background: "white" }}>Login</Button>}
+      trigger={<Button style={{ background: "white" }}>{name}</Button>}
     >
       <Modal.Content>
         {path === "login" ? <Login /> : path === "register" ? <Register />: null}

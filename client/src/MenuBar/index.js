@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import ModalInfo from "../ModalInfo";
+import Register from "../Register";
 
 function MenuBar() {
   const pathname = window.location.pathname;
@@ -34,7 +35,7 @@ function MenuBar() {
           as={Link}
           to="login"
         >
-          <ModalInfo path={path} />
+          <ModalInfo path={path} name={"Login"} />
         </Menu.Item>
       </Menu.Menu>
       <Menu.Item
@@ -44,7 +45,7 @@ function MenuBar() {
         as={Link}
         to="/register"
       >
-        <ModalInfo path={path} />
+        <ModalInfo path={path} name={"Register"} />
       </Menu.Item>
 
       {/* <Menu.Item
