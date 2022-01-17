@@ -12,6 +12,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Register from "../Register";
+
+
 
 function Copyright(props) {
   return (
@@ -33,7 +36,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
- function Login() {
+function Login({ setActiveItem, activeItem }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,6 +47,7 @@ const theme = createTheme();
     });
   };
 
+  console.log(activeItem);
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "90vh" }}>
@@ -125,9 +129,9 @@ const theme = createTheme();
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <button onClick={() => setActiveItem("register")}>
+                    Don't have an account? Sign Up
+                  </button>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
