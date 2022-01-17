@@ -3,14 +3,13 @@ import { Card, Image, Button, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 function PostCard({ post }) {
-    console.log(post)
-
-
+  console.log(post)
+  
     function likePost() {
-        console.log("cliked")
+        console.log("clicked")
     }
     function commentOnPost() {
-      console.log("cliked");
+      console.log("clicked");
     }
 
   return (

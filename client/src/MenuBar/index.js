@@ -2,30 +2,16 @@ import React, { useState } from "react";
 import { Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import ModalInfo from "../ModalInfo";
-import { UPDATE_ACTIVE_ITEM } from "../utils/actions";
-
-import { useStoreContext } from "../utils/GlobalState";
 
 function MenuBar() {
   const pathname = window.location.pathname;
   const path = pathname === "/" ? "home" : pathname.slice(1);
   const [activeItem, setActiveItem] = useState(path);
-  const [state, dispatch] = useStoreContext();
-  const { currentItem } = state;
-  
+
   console.log(activeItem);
-  
-  // const handleItemClick = (e, { name }) => {
-  //     setActiveItem(name);
-  //   };
-    
-    const dispatchActiveItem = (event,{name}) => {
-      event.preventDefault();
-      dispatch({
-        type: UPDATE_ACTIVE_ITEM,
-        currentItem: name, //activeItem is the state
-      });
-      // setActiveItem(currentItem);
+
+  const handleItemClick = (event, { name }) => {
+    setActiveItem(name);
   };
 
   return (
@@ -33,7 +19,7 @@ function MenuBar() {
       <Menu.Item
         name="home"
         active={activeItem === "home"}
-        onClick={dispatchActiveItem }
+        onClick={handleItemClick}
         as={Link}
         to="/"
       />
@@ -41,23 +27,18 @@ function MenuBar() {
         <Menu.Item
           name="login"
           active={activeItem === "login"}
-          onClick={dispatchActiveItem }
+          onClick={handleItemClick}
           as={Link}
           to="/login"
-        >
-          <ModalInfo currentItem={currentItem} name={"Login"} />
-        </Menu.Item>
+        />
       </Menu.Menu>
       <Menu.Item
         name="register"
         active={activeItem === "register"}
-        onClick={dispatchActiveItem }
+        onClick={handleItemClick}
         as={Link}
         to="/register"
-      >
-        <ModalInfo currentItem={currentItem} name={"Register"} />
-      </Menu.Item>
-
+      />
       {/* <Menu.Item
         name="logout"
         active={activeItem === "logout"}
@@ -68,3 +49,4 @@ function MenuBar() {
 }
 
 export default MenuBar;
+

@@ -4,10 +4,10 @@ import Login from "../Login";
 import Register from "../Register";
 
 function ModalInfo(props) {
-  const { currentItem ,name } = props;
+  const { name, currentActiveItem } = props;
   const [open, setOpen] = useState(false);
 
-  // console.log(currentItem + "------------------");
+  // console.log(currentActiveItem + "------------------");
 
   return (
     <Modal
@@ -19,10 +19,10 @@ function ModalInfo(props) {
       trigger={<Button style={{ background: "white" }}>{name}</Button>}
     >
       <Modal.Content>
-        {currentItem === "login" ? (
-          <Login currentItem={currentItem} />
-        ) : currentItem === "register" ? (
-          <Register currentItem={currentItem} />
+        {currentActiveItem === "login" ? (
+          <Login />
+        ) : currentActiveItem === "register" ? (
+          <Register  />
         ) : null}
       </Modal.Content>
       {/* <Modal.Actions>
