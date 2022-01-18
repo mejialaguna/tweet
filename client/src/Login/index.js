@@ -1,22 +1,29 @@
-import React, { useState , useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../utils/mutations";
 import "./index.css";
 import { useForm } from "../utils/hooks";
 import { AuthContext } from "../utils/auth";
- 
+import SnackBar from "../SnackBar";
+
 function Register(props) {
   const [errors, setErrors] = useState({});
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
   const { onChange, onSubmit, values } = useForm(SignUser, {
     username: "",
-    password: ""
-  })
- 
+    password: "",
+  });
+
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+
+  const handleSnackBar = () => {
+    setSnackBarOpen(true);
+  };
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, {data: {login: userData}}) { // instead of data i just destructure the result check register to check or the console.log on the line bellow
+    update(_, { data: { login: userData } }) {
+      // instead of data i just destructure the result check register to check or the console.log on the line bellow
       // console.log(result.data.login);
       context.login(userData);
       props.history.push("/"); //take you back to home page
@@ -31,13 +38,13 @@ function Register(props) {
   });
 
   function SignUser() {
-   loginUser()
- }
+    loginUser();
+  }
 
   return (
     <div className="form-container">
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
-        <h1>Register</h1>
+        <h1>Sign In</h1>
         <Form.Input
           label="Username"
           placeholder="Username"
@@ -57,15 +64,19 @@ function Register(props) {
         <Button
           type="submit"
           primary
-          disabled={
-            !(
-              values.password &&
-              values.username
-            )
-          }
+          onClick={handleSnackBar}
+          disabled={!(values.password && values.username)}
         >
-          Login
+          LOGIN
         </Button>
+        {Object.keys(errors).length === 0 && (
+          <SnackBar
+            SnackBarOpen={SnackBarOpen}
+            severity={"success"}
+            message={"Welcome Back."}
+            setSnackBarOpen={setSnackBarOpen}
+          />
+        )}
       </Form>
       {Object.keys(errors).length > 0 && (
         <div className="ui error message">

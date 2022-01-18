@@ -3,12 +3,20 @@ import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { ADD_USER } from "../utils/mutations";
 import "./index.css";
-import { useForm } from "../utils/hooks";
 import { AuthContext } from "../utils/auth"
+import { useForm } from "../utils/hooks";
+import SnackBar from "../SnackBar";
 
-function Register(props) {
+function Register(props) {// getting props from parent element app.js
   const context = useContext(AuthContext)
   const [errors, setErrors] = useState({});
+
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+
+  const handleSnackBar = () => {
+    setSnackBarOpen(true);
+  };
+
 
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
@@ -19,7 +27,7 @@ function Register(props) {
   });
 
   const [addUser, { loading }] = useMutation(ADD_USER, {
-    update(_, {data: {login : userData}}) { // firs we get the result instead of destructuring it just result
+    update(_, {data: {register : userData}}) { // firs we get the result instead of destructuring it just result
       context.login(userData); // result.data.login
       // console.log(result.data.login);
       props.history.push("/"); //take you back to home page
@@ -76,6 +84,7 @@ function Register(props) {
           type="password"
         />
         <Button
+          onClick={handleSnackBar}
           type="submit"
           primary
           disabled={
@@ -89,6 +98,14 @@ function Register(props) {
         >
           Register
         </Button>
+        {Object.keys(errors).length === 0 && (
+          <SnackBar
+            SnackBarOpen={SnackBarOpen}
+            severity={"info"}
+            message={"Welcome , Happy to have with us 😄 "}
+            setSnackBarOpen={setSnackBarOpen}
+          />
+        )}
       </Form>
       {Object.keys(errors).length > 0 && (
         <div className="ui error message">
