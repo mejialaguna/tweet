@@ -51,7 +51,6 @@ function MenuBar() {
             as={Link}
             to="/"
           />
-
             <Menu.Item
             position="right"
             name="logout"
