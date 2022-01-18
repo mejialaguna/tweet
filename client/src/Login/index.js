@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../utils/mutations";
 import "./index.css";
-
+import { useForm } from "../utils/hooks";
+import { AuthContext } from "../utils/auth";
+ 
 function Register(props) {
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+  const context = useContext(AuthContext)
+  const { onChange, onSubmit, values } = useForm(SignUser, {
     username: "",
-    email: "",
-    password: "",
-  });
-
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+    password: ""
+  })
+ 
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, result) {
-      console.log(result);
+    update(_, {data: {login: userData}}) { // instead of data i just destructure the result check register to check or the console.log on the line bellow
+      // console.log(result.data.login);
+      context.login(userData);
       props.history.push("/"); //take you back to home page
     },
     onError(err) {
@@ -26,16 +26,13 @@ function Register(props) {
     },
     variables: {
       username: values.username,
-      email: values.email,
-      password: values.password, // or we can use just values
+      password: values.password, // or we can use just word => values
     },
   });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    loginUser();
-    // window.location.assign("/");
-  };
+  function SignUser() {
+   loginUser()
+ }
 
   return (
     <div className="form-container">
@@ -67,7 +64,7 @@ function Register(props) {
             )
           }
         >
-          Register
+          Login
         </Button>
       </Form>
       {Object.keys(errors).length > 0 && (

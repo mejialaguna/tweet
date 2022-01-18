@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { ADD_USER } from "../utils/mutations";
 import "./index.css";
+import { useForm } from "../utils/hooks";
+import { AuthContext } from "../utils/auth"
 
 function Register(props) {
+  const context = useContext(AuthContext)
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+
+
+  const { onChange, onSubmit, values } = useForm(registerUser, {
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
   const [addUser, { loading }] = useMutation(ADD_USER, {
-    update(_, result) {
-      console.log(result);
-      props.history.push("/") //take you back to home page
+    update(_, {data: {login : userData}}) { // firs we get the result instead of destructuring it just result
+      context.login(userData); // result.data.login
+      // console.log(result.data.login);
+      props.history.push("/"); //take you back to home page
     },
      onError(err) {
       setErrors(err.graphQLErrors[0].extensions.errors);
@@ -29,17 +31,13 @@ function Register(props) {
       username: values.username,
       email: values.email,
       password: values.password,
-      confirmPassword: values.confirmPassword, // or we can use just values
+      confirmPassword: values.confirmPassword, // or we can use just word => values
     },
   });
 
-  const onSubmit = (e) => {
-    e.preventDefault();    
-    addUser();    
-    // window.location.assign("/");
-  };
-
-  
+  function registerUser(){
+      addUser()
+  }
 
   return (
     <div className="form-container">
