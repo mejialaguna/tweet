@@ -8,14 +8,29 @@ export const ADD_USER = gql`
     $confirmPassword: String!
   ) {
     register(
-      username: $username
-      email: $email
-      password: $password
-      confirmPassword: $confirmPassword
+      registerInput: {
+        username: $username
+        email: $email
+        password: $password
+        confirmPassword: $confirmPassword
+      }
     ) {
       id
+      email
       username
-      createComment
+      createdAt
+      token
+    }
+  }
+`;
+
+export const LOGIN_USER = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      id
+      username
+      email
+      createdAt
       token
     }
   }

@@ -1,146 +1,86 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Register from "../Register";
+import React, { useState } from "react";
+import { Button, Form } from "semantic-ui-react";
+import { useMutation } from "@apollo/react-hooks";
+import { LOGIN_USER } from "../utils/mutations";
+import "./index.css";
 
+function Register(props) {
+  const [errors, setErrors] = useState({});
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-function Login({ setActiveItem, activeItem }) {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      username: data.get("username"),
-      password: data.get("password"),
-    });
+  const onChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  console.log(activeItem);
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(_, result) {
+      console.log(result);
+      props.history.push("/"); //take you back to home page
+    },
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.errors);
+    },
+    variables: {
+      username: values.username,
+      email: values.email,
+      password: values.password, // or we can use just values
+    },
+  });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    loginUser();
+    // window.location.assign("/");
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "90vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+    <div className="form-container">
+      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
+        <h1>Register</h1>
+        <Form.Input
+          label="Username"
+          placeholder="Username"
+          name={"username"}
+          value={values.username}
+          onChange={onChange}
+          type="username"
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <button onClick={() => setActiveItem("register")}>
-                    Don't have an account? Sign Up
-                  </button>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+        <Form.Input
+          label="Password"
+          placeholder="Password"
+          name={"password"}
+          value={values.password}
+          onChange={onChange}
+          type="password"
+        />
+        <Button
+          type="submit"
+          primary
+          disabled={
+            !(
+              values.password &&
+              values.username
+            )
+          }
+        >
+          Register
+        </Button>
+      </Form>
+      {Object.keys(errors).length > 0 && (
+        <div className="ui error message">
+          <ul className="list">
+            {Object.values(errors).map((value) => (
+              <li key={value}>{value}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
 
-export default Login
+export default Register;
