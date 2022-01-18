@@ -19,7 +19,7 @@ function SnackBar({ SnackBarOpen, setSnackBarOpen, severity, message }) {
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         open={SnackBarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
