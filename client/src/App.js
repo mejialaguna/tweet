@@ -10,6 +10,7 @@ import AuthRoute from "./AuthRoute";
 import { AuthProvider } from "./utils/auth";
 
 
+
 function App() {
   return (
     <AuthProvider>

@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Image, Button, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-function PostCard({ post }) {
-  console.log(post)
-  
-    function likePost() {
-        console.log("clicked")
-    }
-    function commentOnPost() {
-      console.log("clicked");
-    }
+import { AuthContext } from "../utils/auth";
 
+function PostCard({ post }) {
+  console.log(post);
+
+  function likePost() {
+    console.log("clicked");
+  }
+
+  const { user } = useContext(AuthContext);
   return (
     <Card fluid>
       <Card.Content>
@@ -21,30 +21,44 @@ function PostCard({ post }) {
           src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
         />
         <Card.Header>{post.username}</Card.Header>
-        <Link to={`/posts/${post.id}`}>
-          <Card.Meta>{moment(post.createdAt).fromNow(true)}</Card.Meta>
-        </Link>
+        <Card.Meta as={Link} to={`/posts/${post.id}`}>
+          {moment(post.createdAt).fromNow(true)}
+        </Card.Meta>
         <Card.Description>{post.body}</Card.Description>
       </Card.Content>
-      <Card.Content extra style={{display: "inline-flex", justifyContent: "space-evenly"}}>
+      <Card.Content extra>
         <Button as="div" labelPosition="right" onClick={likePost}>
           <Button color="blue" basic>
             <Icon name="heart" />
-            Like
           </Button>
-          <Label as="a" basic color="blue" pointing="left">
+          <Label basic color="blue" pointing="left">
             {post.likes.length}
           </Label>
         </Button>
-        <Button as="div" labelPosition="right" onClick={commentOnPost}>
+        <Button
+          as="div"
+          labelPosition="right"
+          as={Link}
+          to={`/post/${post.id}`}
+        >
           <Button color="blue" basic>
             <Icon name="comments" />
-            comments
           </Button>
-          <Label as="a" basic color="blue" pointing="left">
+          <Label basic color="blue" pointing="left">
             {post.comments.length}
           </Label>
         </Button>
+        {/* i am comparing the username coming from authcontext and the post.username coming from the props thaat we are receiving from the home conponent */}
+        {user && user.username === post.username && (
+          <Button
+            as="div"
+            color="red"
+            floated="right"
+            onClick={() => console.log("clicked")}
+          >
+            <Icon name="trash" style={{ margin: 0 }} />
+          </Button>
+        )}
       </Card.Content>
     </Card>
   );
