@@ -60,3 +60,27 @@ export const ADD_POST = gql`
     }
   }
 `;
+
+export const DELETE_POST = gql`
+  mutation deletePost($postId: ID!) {
+    deletePost(postId: $postId)
+  }
+`;
+
+export const LIKED_POST = gql`
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      id
+      username
+      body
+      createdAt
+      __typename
+      likes {
+        id
+        username
+        createdAt
+        __typename
+      }
+    }
+  }
+`;
