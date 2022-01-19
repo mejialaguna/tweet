@@ -15,6 +15,7 @@ function Register(props) {
     password: "",
   });
 
+    
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
 
   const handleSnackBar = () => {
@@ -73,7 +74,7 @@ function Register(props) {
           <SnackBar
             SnackBarOpen={SnackBarOpen}
             severity={"success"}
-            message={"Welcome Back."}
+            message={`Welcome Back. 😄 ${values.username} ` }
             setSnackBarOpen={setSnackBarOpen}
           />
         )}

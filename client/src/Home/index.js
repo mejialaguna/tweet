@@ -1,10 +1,13 @@
-import React from "react";
+import React , {useContext} from "react";
 import { GET_POSTS } from "../utils/queries";
 import { useQuery } from "@apollo/react-hooks";
-import { Grid, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
+import { Grid, Dimmer, Loader, Image, Segment, GridColumn } from "semantic-ui-react";
 import PostCard from "../PostCard";
+import { AuthContext } from "../utils/auth";
+import PostForm from "../PostForm"
 
 function Home() {
+  const {user} = useContext(AuthContext)
   const {
     loading,
     data: { getPosts: posts },
@@ -14,6 +17,7 @@ function Home() {
     <div>
       <Grid columns="three" divided>
         <Grid.Row>
+          {user && <GridColumn> <PostForm /> </GridColumn>}
           {loading ? (
             <Segment style={{ display: "flex", margin: "15% auto" }}>
               <Dimmer active inverted>

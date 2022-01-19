@@ -20,7 +20,7 @@ function MenuBar() {
     setActiveItem(name);
   };
 
-  function aboveTwoFunctions() {
+  function SnackBarAndLogout() {
     handleSnackBar();
     logout();
   }
@@ -67,7 +67,7 @@ function MenuBar() {
               position="right"
               name="logout"
               active
-              onClick={aboveTwoFunctions}
+              onClick={SnackBarAndLogout}
             />
           </>
         )}
@@ -75,7 +75,7 @@ function MenuBar() {
       <SnackBar
         SnackBarOpen={SnackBarOpen}
         severity={"warning"}
-        message={"You are Logged Out, see you next time."}
+        message={`You are Logged Out, see you next time. 🤗 `}
         setSnackBarOpen={setSnackBarOpen}
       />
     </>

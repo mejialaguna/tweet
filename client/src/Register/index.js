@@ -102,7 +102,7 @@ function Register(props) {// getting props from parent element app.js
           <SnackBar
             SnackBarOpen={SnackBarOpen}
             severity={"info"}
-            message={"Welcome , Happy to have with us 😄 "}
+            message={`Welcome , Happy to have with us 😄 ${values.username}`}
             setSnackBarOpen={setSnackBarOpen}
           />
         )}
