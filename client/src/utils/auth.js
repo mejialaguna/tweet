@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import jwtDecode from "jwt-decode"
-
+import authReducer from "./authReducer";
 
 const initialState = {
   user: null
@@ -20,22 +20,7 @@ const AuthContext = createContext({
   logOut: () => {},
 });
 
-function authReducer(state, action) {
-  switch ((action.type)) {
-    case "LOGIN":
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        user: null,
-      };
-    default:
-      return state;
-  }
-}
+
 
 function AuthProvider(props) {
   const [state, dispatch] = useReducer(authReducer, initialState);

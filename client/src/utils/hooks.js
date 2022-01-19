@@ -9,7 +9,7 @@ export const useForm = (Callback, initialState = {}) => {
   const onSubmit = (e) => {
     e.preventDefault();
     Callback();
-    // window.location.assign("/");
+    // window.location.assign("/"); different of doing it.....
   };
   return {
     onChange,

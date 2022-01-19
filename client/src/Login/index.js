@@ -10,13 +10,13 @@ import SnackBar from "../SnackBar";
 function Register(props) {
   const [errors, setErrors] = useState({});
   const context = useContext(AuthContext);
+
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+
   const { onChange, onSubmit, values } = useForm(SignUser, {
     username: "",
     password: "",
-  });
-
-    
-  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  });    
 
   const handleSnackBar = () => {
     setSnackBarOpen(true);
@@ -37,6 +37,7 @@ function Register(props) {
       password: values.password, // or we can use just word => values
     },
   });
+ 
 
   function SignUser() {
     loginUser();

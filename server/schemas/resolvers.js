@@ -114,7 +114,7 @@ const resolvers = {
     async createPost(_, { body }, context) {
       const user = checkAuth(context);
       if (body.trim() === "") {
-        throw new Error("Post body must not be empty");
+        throw new Error("Please add a post before submitting");
       }
 
       const newPost = new Post({
