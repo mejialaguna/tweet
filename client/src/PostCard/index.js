@@ -22,6 +22,7 @@ function PostCard({ post }) {
         <Card.Description>{post.body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
+        
         <LikeBtn post={post} user={user} />
 
         <Button
