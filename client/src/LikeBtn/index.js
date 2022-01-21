@@ -7,6 +7,7 @@ import { LIKED_POST} from "../utils/mutations"
 
 function LikeBtn({ post , user }) {
   const [liked, setLiked] = useState(false)
+  
   useEffect(() => {
     if (user && post.likes.find(like => like.username === user.username)) {
       setLiked(true)

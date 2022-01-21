@@ -38,9 +38,9 @@ function SinglePost(props) {
 
   console.log(getPost);
 
-  function deletePostCallback() {
-    props.history.push("/");
-  }
+ function refreshDelete() {
+   props.history.push("/");
+ }
 
   return (
     <div>
@@ -56,6 +56,7 @@ function SinglePost(props) {
           <Grid.Row>
             <Grid.Column width={3}>
               <Image
+                style={{ width: "100px" }}
                 floated="right"
                 size="mini"
                 src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
@@ -87,6 +88,7 @@ function SinglePost(props) {
                     <DeleteBtn
                       postId={getPost.id}
                       user={user}
+                      refreshDelete={refreshDelete}
                     />
                   )}
                 </Card.Content>
