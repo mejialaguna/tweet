@@ -23,13 +23,13 @@ function Home() {
 
   return (
     <div>
-      <Grid columns="three" divided>
-        <Grid.Row>
+      <Grid columns="2" divided>
           {user && (
-            <GridColumn>
+            <GridColumn >
               <PostForm />
             </GridColumn>
           )}
+        <Grid.Row>
           {loading ? (
             <Segment style={{ display: "flex", margin: "15% auto" }}>
               <Dimmer active inverted>
