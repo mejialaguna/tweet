@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Button, Card, CardContent, CardHeader, Icon, Label } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Icon,
+  Label,
+} from "semantic-ui-react";
 import moment from "moment";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_SINGLE_POST } from "../utils/queries";
@@ -15,6 +22,7 @@ import {
   Transition,
 } from "semantic-ui-react";
 import LikeBtn from "../LikeBtn";
+import DeleteBtn from "../DeleteBtn";
 
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
@@ -27,7 +35,12 @@ function SinglePost(props) {
   } = useQuery(GET_SINGLE_POST, {
     variables: { postId: postId },
   });
+
   console.log(getPost);
+
+  function deletePostCallback() {
+    props.history.push("/");
+  }
 
   return (
     <div>
@@ -59,16 +72,23 @@ function SinglePost(props) {
                 <Card.Content extra>
                   <LikeBtn user={user} post={getPost} />
                   <Button
-                  as="div"
+                    as="div"
                     labelPosition="right"
-                    onClick={() => console.log("comment post")}>
-                                      
-                  <Button basic color="blue">
-                    <Icon name="comments" />
+                    onClick={() => console.log("comment post")}
+                  >
+                    <Button basic color="blue">
+                      <Icon name="comments" />
+                    </Button>
+                    <Label basic color="blue" pointing="left">
+                      {getPost.comments.length}
+                    </Label>
                   </Button>
-                  <Label basic color="blue" pointing="left" > {getPost.comments.length} </Label>
-                                          
-                  </Button>
+                  {user && user.username === getPost.username && (
+                    <DeleteBtn
+                      postId={getPost.id}
+                      user={user}
+                    />
+                  )}
                 </Card.Content>
               </Card>
             </Grid.Column>

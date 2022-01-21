@@ -27,7 +27,11 @@ function LikeBtn({ post , user }) {
         <Icon name="heart" />
       </Button>
     )
-  ) : null;
+  ) : (
+    <Button as={Link} to="/login" color="teal" basic>
+      <Icon name="heart" />
+    </Button>
+  );
 
 
   return (

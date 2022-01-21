@@ -1,39 +1,42 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { Button, Icon , Confirm } from "semantic-ui-react";
+import { Button, Icon, Confirm } from "semantic-ui-react";
 import { DELETE_POST } from "../utils/mutations";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import "./index.css";
 
 function DeleteBtn(props) {
-    const [ confirmOpen , setConfirmOpen ] =  useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { user, postId } = props;
   // console.log(postId)
   console.log(postId);
 
-  function deleteOnePost() {
-      const [deletePost] = useMutation(DELETE_POST, {
-          update() {
-              
-        }
-      variables: {
-        postId: postId,
-      },
-    });
-  }
+  const [deleteOnePost] = useMutation(DELETE_POST, {
+    update() {
+      setConfirmOpen(false);
+    },
+    variables: {
+      postId: postId,
+    },
+  });
 
   return (
-    <Button
-      as="div"
-      color="red"
-      floated="right"
-      onClick={deleteOnePost}
-    >
-      <Icon name="trash" style={{ margin: 0 }} />
+    <>
+      <Button
+        as="div"
+        color="red"
+        floated="right"
+        onClick={() => setConfirmOpen(true)}
+      >
+        <Icon name="trash" style={{ margin: 0 }} />
       </Button>
       <Confirm
-          open={confirmOpen}
-          onCancel={()=> setConfirmOpen()}
+        className="confirmText"
+        open={confirmOpen}
+        content={"are you sure you want to delete this post"}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={deleteOnePost}
+      />
+    </>
   );
 }
 

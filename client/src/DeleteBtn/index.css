@@ -1,0 +1,5 @@
+.ui.modal>:first-child:not(.icon) , .confirmText {
+  text-align-last: center;
+  font-size: 25px;
+}
+

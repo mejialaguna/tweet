@@ -4,7 +4,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../utils/auth";
 import LikeBtn from "../LikeBtn";
-import DeleteBtn from "../DeleteBtn"
+import DeleteBtn from "../DeleteBtn";
 
 function PostCard({ post }) {
   const { user } = useContext(AuthContext);
@@ -16,7 +16,7 @@ function PostCard({ post }) {
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
         />
-        <Card.Header>{post.username} a</Card.Header>
+        <Card.Header>{post.username} </Card.Header>
         <Card.Meta as={Link} to={`/posts/${post.id}`}>
           {moment(post.createdAt).fromNow(true)}
         </Card.Meta>
@@ -35,7 +35,7 @@ function PostCard({ post }) {
         </Button>
         {/* i am comparing the username coming from authcontext and the post.username coming from the props thaat we are receiving from the home conponent */}
         {user && user.username === post.username && (
-          <DeleteBtn user={ user } postId={post.id} />
+          <DeleteBtn user={user} postId={post.id} />
         )}
       </Card.Content>
     </Card>
