@@ -1,23 +1,16 @@
-import React, { useContext } from "react";
-import {
-  Button,
-  Card,
-  // CardContent,
-  // CardHeader,
-  // CardMeta,
-  // Comment,
-  Icon,
-  Label,
-} from "semantic-ui-react";
+import React, { useContext, useState } from "react";
+import { Button, Card, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_SINGLE_POST } from "../utils/queries";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../utils/auth";
-import { Grid, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
+import { Grid, Dimmer, Loader, Image, Form ,  Segment } from "semantic-ui-react";
 import LikeBtn from "../LikeBtn";
 import DeleteBtn from "../DeleteBtn";
 import Comments from "../Comments";
+import { useMutation } from "@apollo/react-hooks";
+import { CREATE_COMMENT } from "../utils/mutations";
 
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
@@ -25,14 +18,24 @@ function SinglePost(props) {
   const { postId } = useParams();
   //   const postId2 = props.match.params.postId;
 
-  const {
-    loading,
-    data: { getPost },
-  } = useQuery(GET_SINGLE_POST, {
-    variables: { postId: postId },
+  const { loading, data: { getPost } } = useQuery(GET_SINGLE_POST, {
+    variables: {
+      postId: postId
+    },
   });
 
-  console.log(getPost);
+  const [ comment , setComment] = useState("")
+
+  const [makeComment] = useMutation(CREATE_COMMENT, {
+    update() {
+      setComment("")
+    },
+    variables: {
+      postId: postId,
+      body: comment,
+    }
+  })
+
 
   function refreshDelete() {
     props.history.push("/");
@@ -89,7 +92,35 @@ function SinglePost(props) {
                 </Card.Content>
               </Card>
 
-              <Comments getPost={getPost} user={user}  />
+              {user && (
+                <Card fluid>
+                  <Card.Content>
+                    <p> post comments...</p>
+                    <Form>
+                      <div>
+                        <input
+                          input="text"
+                          placeholder="comments"
+                          name="comment"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        />
+                        <button
+                          type="submit"
+                          className="ui button blue"
+                          disabled={!comment}
+                          onClick={makeComment}
+                        >
+                          {" "}
+                          Submit
+                        </button>
+                      </div>
+                    </Form>
+                  </Card.Content>
+                </Card>
+              )}
+
+              <Comments getPost={getPost} user={user} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

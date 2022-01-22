@@ -86,20 +86,37 @@ export const LIKED_POST = gql`
 `;
 
 export const DELETE_COMMENT = gql`
- mutation deleteComment($postId: ID!, $commentId: ID!) {
-  deleteComment(postId: $postId, commentId: $commentId) {
-    username
-    id
-    body
-    createdAt
-    __typename
-    comments {
-      id
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
       username
+      id
       body
       createdAt
       __typename
+      comments {
+        id
+        username
+        body
+        createdAt
+        __typename
+      }
     }
   }
-}
-`
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation createComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      id
+      username
+      body
+      comments {
+        id
+        username
+        createdAt
+        body
+        __typename
+      }
+    }
+  }
+`;
