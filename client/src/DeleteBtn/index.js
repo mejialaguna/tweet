@@ -3,28 +3,36 @@ import { useMutation } from "@apollo/react-hooks";
 import { Button, Icon, Confirm } from "semantic-ui-react";
 import { DELETE_POST } from "../utils/mutations";
 import { GET_POSTS } from "../utils/queries";
+import { DELETE_COMMENT } from "../utils/mutations";
 import "./index.css";
 
 function DeleteBtn(props) {
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { user, postId, refreshDelete } = props;
-  // console.log(postId)
-  console.log(postId);
+  const { postId, refreshDelete, commentId } = props;
+  console.log(postId, commentId);
 
-  const [deleteOnePost] = useMutation(DELETE_POST, {
-    update(cache) {
-      setConfirmOpen(false);
-      const data = cache.readQuery({
-        query: GET_POSTS
-      });
-      data.getPosts = data.getPosts.filter((SinglePost) => SinglePost.id != postId);
-      cache.writeQuery({ query: GET_POSTS  , data});
-      refreshDelete && refreshDelete();
-    },
-    variables: {
-      postId: postId,
-    },
-  });
+  const [deleteOnePost] = useMutation(
+    postId && commentId ? DELETE_COMMENT : DELETE_POST,
+    {
+      update(cache) {
+        setConfirmOpen(false);
+        if (!commentId) {
+          const data = cache.readQuery({
+            query: GET_POSTS,
+          });
+          data.getPosts = data.getPosts.filter(
+            (SinglePost) => SinglePost.id !== postId
+          );
+          cache.writeQuery({ query: GET_POSTS, data });
+        }
+        refreshDelete && refreshDelete();
+      },
+      variables: {
+        postId: postId,
+        commentId: commentId,
+      },
+    }
+  );
 
   return (
     <>

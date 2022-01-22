@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import {
   Button,
   Card,
-  CardContent,
-  CardHeader,
+  // CardContent,
+  // CardHeader,
+  // CardMeta,
+  // Comment,
   Icon,
   Label,
 } from "semantic-ui-react";
@@ -12,23 +14,17 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_SINGLE_POST } from "../utils/queries";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../utils/auth";
-import {
-  Grid,
-  Dimmer,
-  Loader,
-  Image,
-  Segment,
-  GridColumn,
-  Transition,
-} from "semantic-ui-react";
+import { Grid, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
 import LikeBtn from "../LikeBtn";
 import DeleteBtn from "../DeleteBtn";
+import Comments from "../Comments";
 
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
 
   //   const postId2 = props.match.params.postId;
   const { postId } = useParams();
+
   const {
     loading,
     data: { getPost },
@@ -38,9 +34,9 @@ function SinglePost(props) {
 
   console.log(getPost);
 
- function refreshDelete() {
-   props.history.push("/");
- }
+  function refreshDelete() {
+    props.history.push("/");
+  }
 
   return (
     <div>
@@ -88,11 +84,30 @@ function SinglePost(props) {
                     <DeleteBtn
                       postId={getPost.id}
                       user={user}
-                      refreshDelete={refreshDelete}
+                      callBack={refreshDelete}
                     />
                   )}
                 </Card.Content>
               </Card>
+              <Comments getPost={getPost} user={user} />
+              {/* {getPost.comments.map((comment) => {
+                return (
+                  <Card fluid key={comment.id}>
+                    <Card.Content>
+                      {user && user.username === comment.username && (
+                        <DeleteBtn
+                          postId={getPost.id} commentId={Comment.id}
+                        />
+                      )}
+                      <Card.Header>{Comment.username} </Card.Header>
+                      <Card.Meta>
+                        {moment(comment.createdAt).fromNow()}
+                      </Card.Meta>
+                      <Card.Description> {comment.body}</Card.Description>                      
+                    </Card.Content>
+                  </Card>
+                );
+              })} */}
             </Grid.Column>
           </Grid.Row>
         </Grid>
