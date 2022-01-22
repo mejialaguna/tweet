@@ -9,14 +9,15 @@ import "./index.css";
 function DeleteBtn(props) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { postId, refreshDelete, commentId } = props;
-  console.log(postId, commentId);
+  // console.log(postId)
+  console.log(postId);
 
   const [deleteOnePost] = useMutation(
-    postId && commentId ? DELETE_COMMENT : DELETE_POST,
+    commentId && postId ? DELETE_COMMENT : DELETE_POST,
     {
       update(cache) {
-        setConfirmOpen(false);
         if (!commentId) {
+          setConfirmOpen(false);
           const data = cache.readQuery({
             query: GET_POSTS,
           });

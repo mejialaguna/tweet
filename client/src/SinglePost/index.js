@@ -21,9 +21,9 @@ import Comments from "../Comments";
 
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
-
-  //   const postId2 = props.match.params.postId;
+  
   const { postId } = useParams();
+  //   const postId2 = props.match.params.postId;
 
   const {
     loading,
@@ -83,31 +83,13 @@ function SinglePost(props) {
                   {user && user.username === getPost.username && (
                     <DeleteBtn
                       postId={getPost.id}
-                      user={user}
-                      callBack={refreshDelete}
+                      refreshDelete={refreshDelete}
                     />
                   )}
                 </Card.Content>
               </Card>
-              <Comments getPost={getPost} user={user} />
-              {/* {getPost.comments.map((comment) => {
-                return (
-                  <Card fluid key={comment.id}>
-                    <Card.Content>
-                      {user && user.username === comment.username && (
-                        <DeleteBtn
-                          postId={getPost.id} commentId={Comment.id}
-                        />
-                      )}
-                      <Card.Header>{Comment.username} </Card.Header>
-                      <Card.Meta>
-                        {moment(comment.createdAt).fromNow()}
-                      </Card.Meta>
-                      <Card.Description> {comment.body}</Card.Description>                      
-                    </Card.Content>
-                  </Card>
-                );
-              })} */}
+
+              <Comments getPost={getPost} user={user}  />
             </Grid.Column>
           </Grid.Row>
         </Grid>

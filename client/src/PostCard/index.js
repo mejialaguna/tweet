@@ -23,6 +23,7 @@ function PostCard({ post }) {
         <Card.Description>{post.body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
+
         <LikeBtn post={post} user={user} />
 
         <Button labelPosition="right" as={Link} to={`/post/${post.id}`}>
@@ -33,10 +34,12 @@ function PostCard({ post }) {
             {post.comments.length}
           </Label>
         </Button>
+
         {/* i am comparing the username coming from authcontext and the post.username coming from the props thaat we are receiving from the home conponent */}
         {user && user.username === post.username && (
           <DeleteBtn user={user} postId={post.id} />
         )}
+        
       </Card.Content>
     </Card>
   );

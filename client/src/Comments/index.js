@@ -1,5 +1,5 @@
 import React from "react";
-import { Card,  Comment } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import moment from "moment";
 import DeleteBtn from "../DeleteBtn";
 
