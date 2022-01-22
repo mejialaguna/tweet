@@ -69,13 +69,16 @@ function SinglePost(props) {
                   <Card.Description> {getPost.body} </Card.Description>
                 </Card.Content>
                 <hr />
-                <Card.Content extra>
-                  <LikeBtn user={user} post={getPost} />
+                  <Card.Content extra>
+                    
+                    <LikeBtn user={user} post={getPost} />
+                    
                   <Button
                     as="div"
                     labelPosition="right"
                     onClick={() => console.log("comment post")}
-                  >
+                    >
+                      
                     <Button basic color="blue">
                       <Icon name="comments" />
                     </Button>
@@ -97,7 +100,7 @@ function SinglePost(props) {
                   <Card.Content>
                     <p> post comments...</p>
                     <Form>
-                      <div>
+                      <div >
                         <input
                           input="text"
                           placeholder="comments"
@@ -105,7 +108,8 @@ function SinglePost(props) {
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         />
-                        <button
+                          <button
+                            style={{marginTop: 10}}
                           type="submit"
                           className="ui button blue"
                           disabled={!comment}
@@ -120,7 +124,8 @@ function SinglePost(props) {
                 </Card>
               )}
 
-              <Comments getPost={getPost} user={user} />
+                <Comments getPost={getPost} user={user} />
+                
             </Grid.Column>
           </Grid.Row>
         </Grid>

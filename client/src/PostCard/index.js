@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Card, Image, Button, Icon, Label } from "semantic-ui-react";
+import { Card, Image, Button, Icon, Label, Popup } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../utils/auth";
@@ -11,11 +11,17 @@ function PostCard({ post }) {
   return (
     <Card fluid>
       <Card.Content>
-        <Image
+        <Popup
+          content={`comment created ${moment(post.createdAt).fromNow()}`}
+          key={post.username}
+          header={post.username}
+          trigger={<Image
           floated="right"
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
+        />}
         />
+        
         <Card.Header>{post.username} </Card.Header>
         <Card.Meta as={Link} to={`/posts/${post.id}`}>
           {moment(post.createdAt).fromNow(true)}
@@ -23,13 +29,18 @@ function PostCard({ post }) {
         <Card.Description>{post.body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-
         <LikeBtn post={post} user={user} />
 
         <Button labelPosition="right" as={Link} to={`/post/${post.id}`}>
-          <Button color="blue" basic>
-            <Icon name="comments" />
-          </Button>
+          <Popup
+            content="Click here to leave a comment"
+            trigger={
+              <Button color="blue" basic>
+                <Icon name="comments" />
+              </Button>
+            }
+          />
+
           <Label basic color="blue" pointing="left">
             {post.comments.length}
           </Label>
@@ -39,7 +50,6 @@ function PostCard({ post }) {
         {user && user.username === post.username && (
           <DeleteBtn user={user} postId={post.id} />
         )}
-        
       </Card.Content>
     </Card>
   );

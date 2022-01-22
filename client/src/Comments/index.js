@@ -12,7 +12,7 @@ function Comments(props) {
       {getPost.comments.map((comment) => { 
         return (
           <Card fluid key={comment.id}>
-            <Card.Content>
+            <Card.Content >
               {user && user.username === comment.username && ( 
                 <DeleteBtn postId={getPost.id} commentId={comment.id} />
               )}
