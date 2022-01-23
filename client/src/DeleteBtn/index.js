@@ -57,7 +57,7 @@ function DeleteBtn(props) {
           </Button>
         }
         content={
-          <Button color="red" content="Delete." />
+          <Button color="red" content="are you sure?." />
         }
         on="click"
         className="confirmText"
