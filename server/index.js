@@ -1,19 +1,18 @@
 const { ApolloServer } = require("apollo-server");
-const { PubSub } = require("graphql-subscriptions");
 const mongoose = require("mongoose");
-require("dotenv").config()
+// require("dotenv").config()
 
-const { MONGODB } = require("./connection");
+const { MONGODB } = require("./config.js");
 
 const PORT = process.env.PORT || 3002;
 const { typeDefs, resolvers } = require("./schemas");
 
-const pubsub = new PubSub();
-
+// const pubsub = new PubSub();
+    
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req}) => ({req , pubsub})
+  context: ({req}) => ({req })
 });
 
 mongoose
@@ -23,7 +22,7 @@ mongoose
     return server.listen({ port: PORT });
   })
   .then((res) => {
-    console.log(`server running @ ${res.url}`);
+    console.log(`server running @ ${res.url}graphql`);
   })
   .catch(err => {
     console.error(err)
