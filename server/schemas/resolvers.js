@@ -8,7 +8,7 @@ const {
 } = require("../utils/validate");
 const checkAuth = require("../utils/check-auth");
 
-const { secret } = require("../config");
+const { secret } = require("../config/connection");
 
 function gToken(user) {
   return jwt.sign(
