@@ -6,6 +6,12 @@ import { AuthContext } from "../utils/auth";
 import LikeBtn from "../LikeBtn";
 import DeleteBtn from "../DeleteBtn";
 
+const style = {
+  borderRadius: 5,
+  opacity: 0.7,
+};
+
+
 function PostCard({ post }) {
   const { user } = useContext(AuthContext);
   return (
@@ -15,13 +21,17 @@ function PostCard({ post }) {
           content={`comment created ${moment(post.createdAt).fromNow()}`}
           key={post.username}
           header={post.username}
-          trigger={<Image
-          floated="right"
-          size="mini"
-          src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
-        />}
+          style={style}
+          inverted
+          trigger={
+            <Image
+              floated="right"
+              size="mini"
+              src="https://react.semantic-ui.com/images/avatar/large/elliot.jpg"
+            />
+          }
         />
-        
+
         <Card.Header>{post.username} </Card.Header>
         <Card.Meta as={Link} to={`/posts/${post.id}`}>
           {moment(post.createdAt).fromNow(true)}
@@ -39,6 +49,8 @@ function PostCard({ post }) {
                 <Icon name="comments" />
               </Button>
             }
+            style={style}
+            inverted
           />
 
           <Label basic color="blue" pointing="left">
