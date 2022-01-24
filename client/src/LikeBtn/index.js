@@ -4,6 +4,11 @@ import { Button, Icon, Label , Popup } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LIKED_POST } from "../utils/mutations";
 
+const style = {
+  borderRadius: 5,
+  opacity: 0.7,
+};
+
 function LikeBtn({ post, user }) {
   const [liked, setLiked] = useState(false);
 
@@ -36,6 +41,8 @@ function LikeBtn({ post, user }) {
   return (
     <Popup
       content={!liked ? "Like this post post" : "dislike this post"}
+      style={style}
+      inverted
       trigger={
         <Button as="div" labelPosition="right" onClick={likePost}>
           {likeBtn}

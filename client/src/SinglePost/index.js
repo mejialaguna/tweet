@@ -12,6 +12,11 @@ import Comments from "../Comments";
 import { useMutation } from "@apollo/react-hooks";
 import { CREATE_COMMENT } from "../utils/mutations";
 
+const style = {
+  borderRadius: 5,
+  opacity: 0.7,
+};
+
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
   
@@ -70,11 +75,12 @@ function SinglePost(props) {
                 </Card.Content>
                 <hr />
                 <Card.Content extra>
-                  
                   <LikeBtn user={user} post={getPost} />
 
                   <Popup
                     content="comment down bellow"
+                    style={style}
+                    inverted
                     trigger={
                       <Button
                         as="div"

@@ -43,7 +43,7 @@ function PostCard({ post }) {
 
         <Button labelPosition="right" as={Link} to={`/post/${post.id}`}>
           <Popup
-            content="Click here to leave a comment"
+            content= "see comments" 
             trigger={
               <Button color="blue" basic>
                 <Icon name="comments" />
