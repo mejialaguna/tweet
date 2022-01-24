@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Icon, Label } from "semantic-ui-react";
+import { Button, Icon, Label , Popup } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LIKED_POST } from "../utils/mutations";
 
@@ -34,12 +34,17 @@ function LikeBtn({ post, user }) {
   );
 
   return (
-    <Button as="div" labelPosition="right" onClick={likePost}>
-      {likeBtn}
-      <Label basic color="blue" pointing="left">
-        {post.likes.length}
-      </Label>
-    </Button>
+    <Popup
+      content={!liked ? "Like this post post" : "dislike this post"}
+      trigger={
+        <Button as="div" labelPosition="right" onClick={likePost}>
+          {likeBtn}
+          <Label basic color="blue" pointing="left">
+            {post.likes.length}
+          </Label>
+        </Button>
+      }
+    />
   );
 }
 

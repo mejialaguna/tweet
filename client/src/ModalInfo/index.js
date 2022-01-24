@@ -7,8 +7,6 @@ function ModalInfo(props) {
   const { name, currentActiveItem } = props;
   const [open, setOpen] = useState(false);
 
-  // console.log(currentActiveItem + "------------------");
-
   return (
     <Modal
       size="small"
@@ -22,7 +20,7 @@ function ModalInfo(props) {
         {currentActiveItem === "login" ? (
           <Login />
         ) : currentActiveItem === "register" ? (
-          <Register  />
+          <Register />
         ) : null}
       </Modal.Content>
       {/* <Modal.Actions>

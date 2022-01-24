@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Card, Icon, Label } from "semantic-ui-react";
+import { Button, Card, Icon, Label, Popup } from "semantic-ui-react";
 import moment from "moment";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_SINGLE_POST } from "../utils/queries";
@@ -69,23 +69,28 @@ function SinglePost(props) {
                   <Card.Description> {getPost.body} </Card.Description>
                 </Card.Content>
                 <hr />
-                  <Card.Content extra>
-                    
-                    <LikeBtn user={user} post={getPost} />
-                    
-                  <Button
-                    as="div"
-                    labelPosition="right"
-                    onClick={() => console.log("comment post")}
-                    >
-                      
-                    <Button basic color="blue">
-                      <Icon name="comments" />
-                    </Button>
-                    <Label basic color="blue" pointing="left">
-                      {getPost.comments.length}
-                    </Label>
-                  </Button>
+                <Card.Content extra>
+                  
+                  <LikeBtn user={user} post={getPost} />
+
+                  <Popup
+                    content="comment down bellow"
+                    trigger={
+                      <Button
+                        as="div"
+                        labelPosition="right"
+                        onClick={() => console.log("comment post")}
+                      >
+                        <Button basic color="blue">
+                          <Icon name="comments" />
+                        </Button>
+                        <Label basic color="blue" pointing="left">
+                          {getPost.comments.length}
+                        </Label>
+                      </Button>
+                    }
+                  />
+
                   {user && user.username === getPost.username && (
                     <DeleteBtn
                       postId={getPost.id}
@@ -100,7 +105,7 @@ function SinglePost(props) {
                   <Card.Content>
                     <p> post comments...</p>
                     <Form>
-                      <div >
+                      <div>
                         <input
                           input="text"
                           placeholder="comments"
@@ -108,8 +113,8 @@ function SinglePost(props) {
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         />
-                          <button
-                            style={{marginTop: 10}}
+                        <button
+                          style={{ marginTop: 10 }}
                           type="submit"
                           className="ui button blue"
                           disabled={!comment}
@@ -124,8 +129,7 @@ function SinglePost(props) {
                 </Card>
               )}
 
-                <Comments getPost={getPost} user={user} />
-                
+              <Comments getPost={getPost} user={user} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

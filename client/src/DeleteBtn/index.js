@@ -6,7 +6,6 @@ import { GET_POSTS } from "../utils/queries";
 import { DELETE_COMMENT } from "../utils/mutations";
 import "./index.css";
 
-
 const style = {
   borderRadius: 5,
   // opacity: 0.7,
@@ -15,8 +14,7 @@ const style = {
 function DeleteBtn(props) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { postId, refreshDelete, commentId } = props;
-  // console.log(postId)
-  console.log(postId);
+
 
   const [deleteOnePost] = useMutation(
     commentId && postId ? DELETE_COMMENT : DELETE_POST,
@@ -56,11 +54,10 @@ function DeleteBtn(props) {
             <Icon name="trash" style={{ margin: 0 }} />
           </Button>
         }
-        content={
-          <Button color="red" content="are you sure?." />
-        }
+        content={<Button color="red" content="are you sure?." />}
         on="click"
         className="confirmText"
+        open={confirmOpen}
         onClick={deleteOnePost}
         position="top right"
         onCancel={() => setConfirmOpen(false)}

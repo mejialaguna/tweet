@@ -25,7 +25,7 @@ function Register(props) {
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       // instead of data i just destructure the result check register to check or the console.log on the line bellow
-      // console.log(result.data.login);
+     
       context.login(userData);
       props.history.push("/"); //take you back to home page
     },

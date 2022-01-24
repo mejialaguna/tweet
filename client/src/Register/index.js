@@ -29,7 +29,7 @@ function Register(props) {// getting props from parent element app.js
   const [addUser, { loading }] = useMutation(ADD_USER, {
     update(_, {data: {register : userData}}) { // firs we get the result instead of destructuring it just result
       context.login(userData); // result.data.login
-      // console.log(result.data.login);
+      
       props.history.push("/"); //take you back to home page
     },
      onError(err) {
