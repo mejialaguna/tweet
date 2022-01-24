@@ -25,7 +25,6 @@ export const GET_POSTS = gql`
   }
 `;
 
-
 export const GET_SINGLE_POST = gql`
   query ($postId: ID!) {
     getPost(postId: $postId) {
