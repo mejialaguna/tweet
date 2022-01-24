@@ -1,4 +1,3 @@
-
 function authReducer(state, action) {
   switch (action.type) {
     case "LOGIN":

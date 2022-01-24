@@ -12,13 +12,13 @@ const pubsub = new PubSub();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req}) => ({req , pubsub})
+  context: ({ req }) => ({ req, pubsub }),
 });
 
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
-    .then(() => {
-      console.log("MongoDb connected")
+  .then(() => {
+    console.log("MongoDb connected");
     return server.listen({ port: PORT });
   })
   .then((res) => {
