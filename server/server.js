@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const { MONGODB } = require("./config/connection");
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 5000;
 const { typeDefs, resolvers } = require("./schemas");
 
 const pubsub = new PubSub();
