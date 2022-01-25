@@ -47,6 +47,7 @@ function DeleteBtn(props) {
         trigger={
           <Button
             as="div"
+            open={confirmOpen}
             color="red"
             floated="right"
             onClick={() => setConfirmOpen(true)}
@@ -57,7 +58,6 @@ function DeleteBtn(props) {
         content={<Button color="red" content="are you sure?." />}
         on="click"
         className="confirmText"
-        // open={confirmOpen}
         onClick={deleteOnePost}
         position="top right"
         onCancel={() => setConfirmOpen(false)}

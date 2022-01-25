@@ -40,7 +40,7 @@ function LikeBtn({ post, user }) {
 
   return (
     <Popup
-      content={!liked ? "Like this post post" : "dislike this post"}
+      content={!liked ? "Like" : "dislike"}
       style={style}
       inverted
       trigger={
