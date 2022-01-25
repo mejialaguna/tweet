@@ -49,15 +49,15 @@ function DeleteBtn(props) {
             as="div"
             color="red"
             floated="right"
+            open={confirmOpen}
             onClick={() => setConfirmOpen(true)}
           >
             <Icon name="trash" style={{ margin: 0 }} />
           </Button>
         }
-        content={<Button color="red" content="are you sure?." />}
+        content={<Button color="red" content="are you sure?" />}
         on="click"
         className="confirmText"
-        // open={confirmOpen}
         onClick={deleteOnePost}
         position="top right"
         onCancel={() => setConfirmOpen(false)}
