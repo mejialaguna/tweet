@@ -1,9 +1,11 @@
-const { ApolloServer, PubSub } = require("apollo-server");
+const { ApolloServer } = require("apollo-server");
+const { PubSub } = require("graphql-subscriptions");
 const mongoose = require("mongoose");
 
-const typeDefs = require("./graphql/typeDefs");
-const resolvers = require("./graphql/resolvers");
-const { MONGODB } = require("./config.js");
+const { MONGODB } = require("./config/connection");
+
+const PORT = process.env.PORT || 3002;
+const { typeDefs, resolvers } = require("./schemas");
 
 const pubsub = new PubSub();
 
@@ -16,9 +18,9 @@ const server = new ApolloServer({
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
   .then(() => {
-    console.log("MongoDB Connected");
-    return server.listen({ port: 5000 });
+    ("MongoDb connected");
+    return server.listen({ port: PORT });
   })
   .then((res) => {
-    console.log(`Server running at ${res.url}`);
+    console.log(`server running @ ${res.url}`);
   });
